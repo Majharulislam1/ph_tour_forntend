@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useLoginMutation } from '@/Redux/features/auth/auth.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import React from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -15,7 +15,7 @@ const loginSchema = z
     .object({
         email: z.email(),
         password: z.string().min(8, { error: "Password is too short" }),
-         
+
     })
 // .refine((data) => data.password === data.confirmPassword, {
 //     message: "Password do not match",
@@ -50,11 +50,18 @@ const Login = () => {
             const result = await login(userInfo).unwrap();
             console.log(result);
             toast.success("User created successfully");
-            navigate("/verify");
+            navigate("/verify", {state:data.email});
         } catch (error) {
             console.log(error)
 
+            if (error.data.message === "Password does not match") {
+                toast.error("Invalid credentials");
+            }
 
+            if (error.data.message === "User is not verified") {
+                toast.error("Your account is not verified");
+                navigate("/verify", { state: data.email });
+            }
 
 
         }

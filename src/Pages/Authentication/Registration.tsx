@@ -57,9 +57,16 @@ const Registration = () => {
             toast.success("User created successfully");
             navigate("/verify");
         } catch (error) {
-             console.log(error)
-            
-            
+            console.log(error)
+            if (error.data.message === "Password does not match") {
+                toast.error("Invalid credentials");
+            }
+
+            if (error.data.message === "User is not verified") {
+                toast.error("Your account is not verified");
+                navigate("/verify", { state: data.email });
+            }
+
 
 
         }
