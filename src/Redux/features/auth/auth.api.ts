@@ -34,7 +34,7 @@ const authApi = baseApi.injectEndpoints({
 
     verifyOtp : builder.mutation({
       query: (userInfo) => ({
-        url: "/otp/send",
+        url: "/otp/verify",
         method: "POST",
         data: userInfo,
       }),

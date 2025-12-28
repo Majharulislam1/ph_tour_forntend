@@ -52,12 +52,13 @@ const Verify = () => {
         try {
             const res = await sendOTp({ email: email }).unwrap();
 
+
             if (res.success) {
                 toast.success("OTP Sent", { id: toastId });
                 setConfirm(true);
 
             }
-
+          console.log('hanldeconfirm');
 
         } catch (error) {
               console.log(error)
@@ -76,11 +77,16 @@ const Verify = () => {
         
     
         try {
+            
               const res = await verifyOtp(userInfo).unwrap();
+
               if (res.success) {
                 toast.success("OTP Verified", { id: toastId });
                 setConfirm(true);
               }
+           
+            console.log('hanldeSubmit');
+             
         } catch (err) {
             console.log(err);
         }
@@ -164,8 +170,8 @@ const Verify = () => {
                                 <CardDescription>
                                     We will send an otp code for form validations
                                 </CardDescription>
-
                             </CardHeader>
+
 
                             <CardFooter className="flex-col gap-2">
                                 <Button onClick={hanldeConfirm} className="w-full">
