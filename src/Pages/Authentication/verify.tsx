@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { cn } from '@/lib/utils';
 import { useSendOtpMutation, useVerifyOtpMutation } from '@/Redux/features/auth/auth.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Dot } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -31,6 +32,7 @@ const Verify = () => {
     const [email] = useState(location.state);
     const [sendOTp] = useSendOtpMutation()
     const [verifyOtp] = useVerifyOtpMutation();
+    const [timer, setTimer] = useState(120);
 
 
 
@@ -46,22 +48,18 @@ const Verify = () => {
 
 
     const hanldeConfirm = async () => {
-        setConfirm(true);
         const toastId = toast.loading("Sending OTP");
 
         try {
             const res = await sendOTp({ email: email }).unwrap();
 
-
             if (res.success) {
                 toast.success("OTP Sent", { id: toastId });
                 setConfirm(true);
-
+                setTimer(5);
             }
-          console.log('hanldeconfirm');
-
-        } catch (error) {
-              console.log(error)
+        } catch (err) {
+            console.log(err);
         }
 
     }
@@ -72,26 +70,36 @@ const Verify = () => {
             email,
             otp: data.pin,
         };
-      
 
-        
-    
         try {
-            
-              const res = await verifyOtp(userInfo).unwrap();
 
-              if (res.success) {
+            const res = await verifyOtp(userInfo).unwrap();
+
+            if (res.success) {
                 toast.success("OTP Verified", { id: toastId });
                 setConfirm(true);
-              }
-           
+            }
+
             console.log('hanldeSubmit');
-             
+
         } catch (err) {
             console.log(err);
         }
     };
 
+
+    useEffect(() => {
+        if (!email || !confirm) {
+            return;
+        }
+
+        const timerId = setInterval(() => {
+            setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+            console.log("Tick");
+        }, 1000);
+
+        return () => clearInterval(timerId);
+    }, [email, confirm]);
 
 
 
@@ -147,6 +155,20 @@ const Verify = () => {
                                                     </FormControl>
                                                     <FormDescription>
 
+                                                        <Button
+                                                            onClick={hanldeConfirm}
+                                                            type="button"
+                                                            variant="link"
+                                                            disabled={timer !== 0}
+                                                            className={cn("p-0 m-0", {
+                                                                "cursor-pointer": timer === 0,
+                                                                "text-gray-500": timer !== 0,
+                                                            })}
+                                                        >
+                                                            Resent OPT:{" "}
+                                                        </Button>{" "}
+                                                        {timer}
+
                                                     </FormDescription>
                                                     <FormMessage />
                                                 </FormItem>
@@ -181,13 +203,6 @@ const Verify = () => {
                         </Card>
                     )
                 }
-
-
-
-
-
-
-
 
             </div>
         </div>

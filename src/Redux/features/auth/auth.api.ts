@@ -1,8 +1,8 @@
 import { baseApi } from "@/Redux/baseApi";
 
- 
 
-const authApi = baseApi.injectEndpoints({
+
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (userInfo) => ({
@@ -23,7 +23,7 @@ const authApi = baseApi.injectEndpoints({
 
 
 
-     sendOtp :builder.mutation({
+    sendOtp: builder.mutation({
       query: (userInfo) => ({
         url: "/otp/send",
         method: "POST",
@@ -32,25 +32,41 @@ const authApi = baseApi.injectEndpoints({
     }),
 
 
-    verifyOtp : builder.mutation({
+    verifyOtp: builder.mutation({
       query: (userInfo) => ({
         url: "/otp/verify",
         method: "POST",
         data: userInfo,
       }),
     }),
-  
 
-   
+
+
+    logout: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+
+    }),
+
+    userInfo: builder.query({
+      query: () => ({
+        url: "/user/me",
+        method: "GET",
+      }),
+
+    }),
+
 
   }),
 
 
-  
 
-  
+
+
 });
 
 
 
-export const {useLoginMutation,useRegisterMutation , useSendOtpMutation , useVerifyOtpMutation} = authApi
+export const { useLoginMutation, useRegisterMutation, useSendOtpMutation, useVerifyOtpMutation, useLogoutMutation, useUserInfoQuery } = authApi
