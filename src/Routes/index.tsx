@@ -1,12 +1,15 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import Analytics from "@/Pages/admin/analytics";
+ 
 import Login from "@/Pages/Authentication/Login";
 import Registration from "@/Pages/Authentication/Registration";
 import verify from "@/Pages/Authentication/verify";
 import HomePage from "@/Pages/HomePage";
-import Booking from "@/Pages/user/Booking";
+ 
+import { generateRoutes } from "@/utils/getRoutes";
 import { createBrowserRouter } from "react-router";
+import { adminSidebarItems } from "./adminSideBarItems";
+import { userSidebarItems } from "./userSideBarItems";
 
 const router = createBrowserRouter([
   {
@@ -24,10 +27,7 @@ const router = createBrowserRouter([
      path:'/admin',
      Component:DashboardLayout,
      children:[
-         {
-            path:'analytics',
-            Component:Analytics
-         }
+          ...generateRoutes(adminSidebarItems)
      ]
   },
 
@@ -35,10 +35,7 @@ const router = createBrowserRouter([
       path:'/user',
       Component:DashboardLayout,
       children:[
-         {
-             path:'booking',
-             Component:Booking
-         }
+          ...generateRoutes(userSidebarItems)
       ]
   },
 
