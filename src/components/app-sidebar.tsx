@@ -2,17 +2,17 @@
 
 import * as React from "react"
 import {
-   
- 
+
+
 } from "lucide-react"
 
- 
 
- 
+
+
 import {
   Sidebar,
   SidebarContent,
- 
+
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -23,7 +23,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import Logo from "@/assets/icons/logo"
- 
+
 import { Link } from "react-router"
 import { getSidebarItems } from "@/utils/getSideBarItems"
 import { useUserInfoQuery } from "@/Redux/features/auth/auth.api"
@@ -39,16 +39,16 @@ import { useUserInfoQuery } from "@/Redux/features/auth/auth.api"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 
- const { data: userData } = useUserInfoQuery(undefined);
+  const { data: userData } = useUserInfoQuery(undefined);
 
-const data = { 
+  const data = {
 
-  navMain:  getSidebarItems(userData?.data?.role)
-  
-}
+    navMain: getSidebarItems(userData?.data?.role)
+
+  }
 
   return (
-      <Sidebar {...props}>
+    <Sidebar {...props}>
       <SidebarHeader className="items-center">
         <Link to="/">
           <Logo />
