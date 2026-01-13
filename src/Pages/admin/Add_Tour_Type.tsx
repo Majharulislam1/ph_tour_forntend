@@ -1,3 +1,4 @@
+import { AddTourTypeModal } from '@/components/modules/Tour/AddTourTypeModal';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useGetAllTourTypeQuery } from '@/Redux/features/tour/tour.api';
@@ -14,7 +15,7 @@ const Add_Tour_Type = () => {
         <div className="w-full max-w-7xl mx-auto px-5">
             <div className="flex justify-between my-8">
                 <h1 className="text-xl font-semibold">Tour Types</h1>
-
+                  <AddTourTypeModal ></AddTourTypeModal>
             </div>
             <div className="border border-muted rounded-md">
                  <Table>
