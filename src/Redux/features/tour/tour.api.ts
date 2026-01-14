@@ -5,7 +5,7 @@ import { baseApi } from "@/Redux/baseApi";
 export const tourApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
-        
+
 
         addTourType: builder.mutation({
             query: (tourTypeName) => ({
@@ -22,20 +22,22 @@ export const tourApi = baseApi.injectEndpoints({
                 url: "/tour/tour-type",
                 method: "GET",
             }),
-             providesTags: ["TOUR"],
+            providesTags: ["TOUR"],
             transformResponse: (response) => response.data,
         }),
-         
 
+        removeTourType: builder.mutation({
+            query: (tourTypeId) => ({
+                url: `tour/tour-type/${tourTypeId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["TOUR"],
+        }),
 
     }),
-
-
-
-
 
 });
 
 
 
-export const { useGetAllTourTypeQuery , useAddTourTypeMutation } = tourApi
+export const { useGetAllTourTypeQuery, useAddTourTypeMutation , useRemoveTourTypeMutation } = tourApi

@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
- 
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -19,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAddTourTypeMutation } from "@/Redux/features/tour/tour.api";
- 
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -28,6 +27,7 @@ export function AddTourTypeModal() {
   const [addTourType] = useAddTourTypeMutation();
 
   const onSubmit = async (data) => {
+    console.log(data);
     const res = await addTourType({ name: data.name }).unwrap();
     if (res.success) {
       toast.success("Tour Type Added");
@@ -79,3 +79,5 @@ export function AddTourTypeModal() {
     </Dialog>
   );
 }
+
+
