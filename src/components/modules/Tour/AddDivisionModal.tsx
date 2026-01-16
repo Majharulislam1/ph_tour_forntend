@@ -4,15 +4,20 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useAddDivisionMutation } from '@/Redux/features/division/division.api';
  
  
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
  
 
 const AddDivisionModal = () => {
+    const [addDivision] = useAddDivisionMutation();
  const [open, setOpen] = useState(false);
  const [image, setImage] = useState<File | null>(null);
+
+ 
    
   const form = useForm({
     defaultValues: {
@@ -24,7 +29,21 @@ const AddDivisionModal = () => {
 
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(data));
+    formData.append("file", image as File);
+
+    // console.log(formData.get("data"));
+    // console.log(formData.get("file"));
+
+    try {
+      const res = await addDivision(formData).unwrap();
+      toast.success("Division Added");
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
      
   };
 
@@ -51,7 +70,7 @@ const AddDivisionModal = () => {
                 <FormItem>
                   <FormLabel>Division Type</FormLabel>
                   <FormControl>
-                    <Input placeholder="Tour Type Name" {...field} />
+                    <Input placeholder="Division Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,9 +98,9 @@ const AddDivisionModal = () => {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          {/* <Button disabled={!image} type="submit" form="add-division">
+          <Button disabled={!image} type="submit" form="add-division">
             Save changes
-          </Button> */}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
