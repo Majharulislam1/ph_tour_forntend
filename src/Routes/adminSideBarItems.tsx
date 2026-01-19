@@ -1,6 +1,11 @@
+import Add_Division from "@/Pages/admin/Add_Division";
 import Add_Tour from "@/Pages/admin/Add_Tour";
 import Add_Tour_Type from "@/Pages/admin/Add_Tour_Type";
-import Analytics from "@/Pages/admin/analytics";
+ 
+import { lazy } from "react";
+
+
+const Analytics = lazy(()=> import("@/Pages/admin/analytics"))
 
 export const adminSidebarItems  = [
   {
@@ -21,12 +26,21 @@ export const adminSidebarItems  = [
         url: "/admin/add-tour-type",
         component: Add_Tour_Type,
       },
+
+      {
+        title: "Add Division",
+        url: "/admin/add-division",
+        component: Add_Division,
+      },
+
       {
         title: "Add Tour",
         url: "/admin/add-tour",
         component: Add_Tour,
       },
-       
+      
+      
+
     ],
   },
 ];
