@@ -29,3 +29,11 @@ export interface CreatedAt {
 export interface UpdatedAt {
   $date: string
 }
+
+
+export interface Division_single {
+  _id: string
+  name: string
+  thumbnail: string
+  description?: string
+}

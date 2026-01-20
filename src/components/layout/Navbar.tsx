@@ -30,12 +30,11 @@ const navigationLinks = [
 
 export default function Navbar() {
 
-  const {data} = useUserInfoQuery(undefined);
+  const {data ,isLoading} = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
  
-
 
 
 const handleLogout = async () => {
@@ -43,6 +42,9 @@ const handleLogout = async () => {
     dispatch(authApi.util.resetApiState());
   };
 
+if(isLoading){
+    return ;
+}
 
 
   return (
