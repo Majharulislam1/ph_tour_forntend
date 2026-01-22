@@ -32,14 +32,15 @@ import {
 } from "@/components/ui/select";
 
 import { Textarea } from "@/components/ui/textarea";
-import { FileMetadata } from "@/hooks/use-file-upload";
+import type { FileMetadata } from "@/hooks/use-file-upload";
+
 import { cn } from "@/lib/utils";
-import { useGetDivisionsQuery } from "@/redux/features/division/division.api";
-import {
-  useAddTourMutation,
-  useGetTourTypesQuery,
-} from "@/redux/features/Tour/tour.api";
-import { IErrorResponse } from "@/types";
+import { useGetDivisionsQuery } from "@/Redux/features/division/division.api";
+
+import { useAddTourMutation, useGetAllTourTypeQuery } from "@/Redux/features/tour/tour.api";
+import type { IErrorResponse } from "@/types";
+
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, formatISO } from "date-fns";
 import { CalendarIcon, Plus, Trash2 } from "lucide-react";
@@ -73,7 +74,8 @@ export default function AddTour() {
 
   const { data: divisionData, isLoading: divisionLoading } =
     useGetDivisionsQuery(undefined);
-  const { data: tourTypeData } = useGetTourTypesQuery(undefined);
+
+  const { data: tourTypeData, isLoading: tourTypeLoading } = useGetAllTourTypeQuery(undefined);
   const [addTour] = useAddTourMutation();
 
   const divisionOptions = divisionData?.map(
@@ -83,12 +85,19 @@ export default function AddTour() {
     })
   );
 
-  const tourTypeOptions = tourTypeData?.data?.map(
+  const tourTypeOptions = tourTypeData?.map(
     (tourType: { _id: string; name: string }) => ({
       value: tourType._id,
       label: tourType.name,
     })
   );
+
+  console.log(tourTypeOptions);
+
+  const getDefaultDates = () => ({
+    startDate: new Date(),
+    endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -98,8 +107,9 @@ export default function AddTour() {
         "Experience the world's longest natural sea beach with golden sandy shores, crystal clear waters, and breathtaking sunsets. Enjoy beach activities, local seafood, and explore nearby attractions including Himchari National Park and Inani Beach.",
       location: "Cox's Bazar",
       costFrom: "15000",
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days later
+      // startDate: new Date(),
+      // endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days later
+      ...getDefaultDates(),
       departureLocation: "Dhaka",
       arrivalLocation: "Cox's Bazar",
       included: [
@@ -306,6 +316,8 @@ export default function AddTour() {
                 />
               </div>
               <div className="flex gap-5">
+
+
                 <FormField
                   control={form.control}
                   name="division"
@@ -337,6 +349,10 @@ export default function AddTour() {
                     </FormItem>
                   )}
                 />
+
+
+
+
                 <FormField
                   control={form.control}
                   name="tourType"
@@ -346,10 +362,11 @@ export default function AddTour() {
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={tourTypeLoading}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue />
+                            <SelectValue placeholder="Select tour type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
