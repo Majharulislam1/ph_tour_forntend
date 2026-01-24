@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { ZodIssue } from "zod/v3";
 
 export interface ISidebarItem {
   title: string;
@@ -36,4 +37,22 @@ export interface Division_single {
   name: string
   thumbnail: string
   description?: string
+}
+
+type ErrorSource = {
+  path: string;
+  message: string;
+};
+
+
+
+export interface IErrorResponse {
+  success: boolean;
+  message: string;
+  errorSources?: ErrorSource[];
+  err?: {
+    issues: ZodIssue[];
+    name: string;
+  };
+  stack?: string;
 }
