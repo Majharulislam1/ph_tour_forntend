@@ -25,11 +25,9 @@ const router = createBrowserRouter([
       {
         path: '/',
         Component: HomePage
-      }
-    ]
-  },
+      },
 
-  {
+      {
     Component: Tours,
     path: "tours",
   },
@@ -37,6 +35,11 @@ const router = createBrowserRouter([
     Component: TourDetails,
     path: "tours/:id",
   },
+
+    ]
+  },
+
+  
 
   {
     Component: withAuth(DashboardLayout, T_ROLE.superAdmin as T_ROLE_Type),
