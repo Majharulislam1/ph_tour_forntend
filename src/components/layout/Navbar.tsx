@@ -12,9 +12,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Link } from "react-router";
+import {  Link } from "react-router";
 import { ModeToggle } from "./ModelToggler";
-import { authApi, useLogoutMutation, useUserInfoQuery,   } from "@/Redux/features/auth/auth.api";
+import { authApi, useLogoutMutation, useUserInfoQuery, } from "@/Redux/features/auth/auth.api";
 import { useAppDispatch } from "@/Redux/hooks";
 import { T_ROLE } from "@/constants/role";
 
@@ -24,27 +24,28 @@ const navigationLinks = [
   { href: "/about", label: "About", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: T_ROLE.Admin },
   { href: "/admin", label: "Dashboard", role: T_ROLE.superAdmin },
-  { href: "/user", label: "Dashboard", role:T_ROLE.User},
+  { href: "/user", label: "Dashboard", role: T_ROLE.User },
+  { href: "/tours", label: "Tours", role: "PUBLIC" },
 
 ];
 
 export default function Navbar() {
 
-  const {data ,isLoading} = useUserInfoQuery(undefined);
+  const { data, isLoading } = useUserInfoQuery(undefined);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
- 
 
 
-const handleLogout = async () => {
+
+  const handleLogout = async () => {
     await logout(undefined);
     dispatch(authApi.util.resetApiState());
   };
 
-if(isLoading){
-    return ;
-}
+  if (isLoading) {
+    return;
+  }
 
 
   return (
@@ -109,7 +110,7 @@ if(isLoading){
             {/* Navigation menu */}
             <NavigationMenu className="max-md:hidden">
               <NavigationMenuList className="gap-2">
-               {navigationLinks.map((link, index) => (
+                {navigationLinks.map((link, index) => (
                   <>
                     {link.role === "PUBLIC" && (
                       <NavigationMenuItem key={index}>
@@ -138,7 +139,7 @@ if(isLoading){
           </div>
         </div>
         {/* Right side */}
-         <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <ModeToggle />
           {data?.data?.email && (
             <Button

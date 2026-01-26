@@ -14,6 +14,8 @@ import Unauthorized from "@/Pages/Unauthorized";
 import { withAuth } from "@/utils/withAuth";
 import { T_ROLE } from "@/constants/role";
 import type { T_ROLE_Type } from "@/types";
+import Tours from "@/Pages/Tours";
+import TourDetails from "@/Pages/TourDetails";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,16 @@ const router = createBrowserRouter([
   },
 
   {
-    Component: withAuth(DashboardLayout,T_ROLE.superAdmin as T_ROLE_Type),
+    Component: Tours,
+    path: "tours",
+  },
+  {
+    Component: TourDetails,
+    path: "tours/:id",
+  },
+
+  {
+    Component: withAuth(DashboardLayout, T_ROLE.superAdmin as T_ROLE_Type),
     path: '/admin',
     children: [
       { index: true, element: <Navigate to="/admin/analytics" /> },
