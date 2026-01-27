@@ -16,6 +16,7 @@ import { T_ROLE } from "@/constants/role";
 import type { T_ROLE_Type } from "@/types";
 import Tours from "@/Pages/Tours";
 import TourDetails from "@/Pages/TourDetails";
+import Booking from "@/Pages/Booking";
 
 const router = createBrowserRouter([
   {
@@ -28,18 +29,23 @@ const router = createBrowserRouter([
       },
 
       {
-    Component: Tours,
-    path: "tours",
-  },
-  {
-    Component: TourDetails,
-    path: "tours/:id",
-  },
+        Component: Tours,
+        path: "tours",
+      },
+      {
+        Component: TourDetails,
+        path: "tours/:id",
+      },
+
+      {
+        Component: withAuth(Booking),
+        path: "booking/:id",
+      },
 
     ]
   },
 
-  
+
 
   {
     Component: withAuth(DashboardLayout, T_ROLE.superAdmin as T_ROLE_Type),
