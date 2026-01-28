@@ -92,7 +92,7 @@ export default function AddTour() {
     })
   );
 
-  console.log(tourTypeOptions);
+  
 
   const getDefaultDates = () => ({
     startDate: new Date(),
@@ -514,7 +514,7 @@ export default function AddTour() {
                     <FormItem className="flex-1">
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea {...field} className="h-[205px]" />
+                        <Textarea {...field} className="h-51.25" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -556,7 +556,7 @@ export default function AddTour() {
                       <Button
                         onClick={() => removeIncluded(index)}
                         variant="destructive"
-                        className="!bg-red-700"
+                        className="bg-red-700!"
                         size="icon"
                         type="button"
                       >
@@ -598,7 +598,7 @@ export default function AddTour() {
                       <Button
                         onClick={() => removeExcluded(index)}
                         variant="destructive"
-                        className="!bg-red-700"
+                        className="bg-red-700!"
                         size="icon"
                         type="button"
                       >
@@ -640,7 +640,7 @@ export default function AddTour() {
                       <Button
                         onClick={() => removeAmenities(index)}
                         variant="destructive"
-                        className="!bg-red-700"
+                        className="bg-red-700!"
                         size="icon"
                         type="button"
                       >
@@ -682,7 +682,7 @@ export default function AddTour() {
                       <Button
                         onClick={() => removeTourPlan(index)}
                         variant="destructive"
-                        className="!bg-red-700"
+                        className="bg-red-700!"
                         size="icon"
                         type="button"
                       >
